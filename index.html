@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micaela García — Brand, Content & Growth Strategist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1EEE6;
+    --paper-dim:#E8E3D6;
+    --ink:#23262B;
+    --ink-soft:#565149;
+    --petrol:#2E5C56;
+    --ochre:#B8763B;
+    --plum:#6E3B4F;
+    --line:#C9C2B4;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:'Karla',sans-serif; font-size:16px; line-height:1.6;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 6vw;}
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; line-height:1.15;}
+  .kicker{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--petrol);}
+  .gradient-bar{height:5px; width:100%; border-radius:3px;
+    background:linear-gradient(90deg,var(--petrol) 0%, var(--plum) 50%, var(--ochre) 100%);}
+
+  /* nav */
+  nav{position:sticky; top:0; z-index:50; background:rgba(241,238,230,.92); backdrop-filter:blur(6px);
+      border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:18px 6vw;}
+  .brand{font-family:'Fraunces',serif; font-weight:600; font-size:1.2rem;}
+  .navlinks{display:flex; gap:28px; font-size:.9rem; font-weight:600;}
+  .navlinks a{text-decoration:none; opacity:.75;}
+  .navlinks a:hover{opacity:1; color:var(--petrol);}
+
+  /* hero */
+  header.hero{padding:90px 0 60px;}
+  .hero h1{font-size:clamp(2.1rem,4.5vw,3.2rem); max-width:820px;}
+  .hero .lead{max-width:640px; color:var(--ink-soft); font-size:1.08rem; margin-top:22px;}
+  .stats{display:flex; gap:40px; margin-top:44px; flex-wrap:wrap;}
+  .stat .num{font-family:'IBM Plex Mono',monospace; font-size:2rem; color:var(--petrol); font-weight:500;}
+  .stat .lbl{font-size:.82rem; color:var(--ink-soft); margin-top:2px;}
+
+  /* section */
+  section{padding:40px 0;}
+  section.alt{background:transparent;}
+  section[data-cat]{transition:opacity .2s ease;}
+  section[data-cat] h2{color:var(--cat-color, var(--ink));}
+  section[data-cat] .kicker{color:var(--cat-color, var(--petrol));}
+  .sect-head{max-width:680px; margin-bottom:60px;}
+  .sect-head h2{font-size:1.7rem; margin-top:8px;}
+  .sect-head p{color:var(--ink-soft); margin-top:12px; font-size:.98rem;}
+
+  /* filter pills */
+  .filter-bar{position:sticky; top:63px; z-index:40; background:var(--paper);
+    border-bottom:1px solid var(--line); padding:16px 0;}
+  .filter-pills{display:flex; gap:10px; flex-wrap:wrap;}
+  .pill{font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.04em; text-transform:uppercase;
+    padding:8px 16px; border-radius:20px; border:1px solid var(--line); background:#fff; cursor:pointer;
+    color:var(--ink-soft); transition:all .15s ease;}
+  .pill:hover{border-color:var(--ink);}
+  .pill.active{color:#fff; border-color:transparent;}
+
+  /* project row — editorial, spacious, no boxes */
+  .project-rows{display:flex; flex-direction:column;}
+  .project-row{display:grid; grid-template-columns:1fr 1.15fr; gap:56px; align-items:start;
+    padding:56px 0; border-bottom:1px solid var(--line);}
+  .project-rows .project-row:last-child{border-bottom:none;}
+  .project-row.flip{grid-template-columns:1.15fr 1fr;}
+  .project-row.flip .row-media{order:2;}
+  .project-row.flip .row-content{order:1;}
+  @media (max-width:820px){
+    .project-row, .project-row.flip{grid-template-columns:1fr; padding:56px 0;}
+    .project-row.flip .row-media{order:0;} .project-row.flip .row-content{order:0;}
+    .filter-bar{top:0;}
+  }
+  .row-content .kicker-line{display:block; width:36px; height:3px; border-radius:2px; margin-bottom:14px;
+    background:var(--cat-color, var(--petrol));}
+  .row-content h3{font-size:1.6rem;}
+  .row-content .role{font-family:'IBM Plex Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); margin-top:6px;}
+  .row-content .context{font-size:1rem; color:var(--ink-soft); margin-top:16px; font-style:italic;}
+  .row-content .narrative{font-size:.95rem; color:var(--ink); margin-top:16px; line-height:1.65;}
+  .row-content ul{margin:18px 0 0; padding-left:18px; font-size:.96rem;}
+  .row-content li{margin-bottom:7px;}
+  .row-content .result{margin-top:20px; padding-top:16px; border-top:1px dashed var(--line); font-size:.92rem;}
+  .row-content .result b{font-family:'IBM Plex Mono',monospace; color:var(--cat-color, var(--plum)); font-weight:500;}
+  .pdf-link{display:inline-flex; align-items:center; gap:8px; margin-top:10px; margin-right:14px;
+    font-size:.82rem; font-weight:600; color:var(--cat-color, var(--petrol)); text-decoration:none;}
+  .pdf-link:hover{text-decoration:underline;}
+  .docs-list{margin-top:16px; padding-top:14px; border-top:1px dashed var(--line); display:flex; flex-wrap:wrap; gap:14px;}
+  .docs-list .pdf-preview{flex:1 1 220px; margin-top:0;}
+  .gallery-empty{font-size:.8rem; color:var(--ink-soft); font-style:italic; border:1px dashed var(--line); border-radius:8px; padding:14px 16px;}
+
+  /* story viewer */
+  .story{position:relative; border-radius:14px; overflow:hidden; background:var(--paper-dim);}
+  .story-progress{position:absolute; top:10px; left:10px; right:10px; display:flex; gap:5px; z-index:5;}
+  .story-progress .seg{flex:1; height:3px; border-radius:2px; background:rgba(255,255,255,.4); cursor:pointer; overflow:hidden;}
+  .story-progress .seg.done{background:rgba(255,255,255,.9);}
+  .story-stage{position:relative; min-height:220px; max-height:520px; height:340px; display:flex; align-items:center; justify-content:center; overflow:hidden; transition:height .25s ease; background:var(--paper-dim);}
+  .story-slide-content{width:100%; height:100%; display:flex; align-items:center; justify-content:center; opacity:1; transition:opacity .25s ease;}
+  .story-slide-content.fading{opacity:0;}
+  .story-stage img, .story-stage video{max-width:100%; max-height:100%; width:auto; height:auto; display:block; margin:auto; border-radius:8px;}
+  .story-nav{position:absolute; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%;
+    background:rgba(35,38,43,.55); border:none; cursor:pointer; z-index:4; color:#fff; font-size:1.1rem;
+    display:flex; align-items:center; justify-content:center; transition:background .15s ease;}
+  .story-nav:hover{background:rgba(35,38,43,.85);}
+  .story-nav.prev{left:10px;} .story-nav.next{right:10px;}
+  .pdf-preview{margin-top:18px; border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  .pdf-preview .pdf-frame-wrap{height:220px; background:var(--paper-dim); pointer-events:none;}
+  .pdf-preview iframe{width:100%; height:100%; border:none;}
+  .pdf-preview .pdf-bar{display:flex; align-items:center; justify-content:space-between; padding:10px 14px;
+    background:#fff; font-size:.82rem;}
+  .pdf-preview .pdf-bar b{font-weight:600;}
+  .pdf-preview .pdf-open{color:var(--cat-color, var(--petrol)); font-weight:600; text-decoration:none; font-size:.8rem;}
+  .pdf-preview .pdf-open:hover{text-decoration:underline;}
+
+  /* lightbox */
+  #lightbox{display:none; position:fixed; inset:0; background:rgba(35,38,43,.92); z-index:100; align-items:center; justify-content:center; padding:5vh 5vw;}
+  #lightbox.open{display:flex;}
+  #lightbox img, #lightbox video{max-width:100%; max-height:90vh; border-radius:8px;}
+  #lightbox-close{position:absolute; top:24px; right:34px; color:#fff; font-size:2rem; cursor:pointer; font-family:'Karla',sans-serif;}
+
+  /* segmented stats */
+  .stat-cats{display:flex; gap:28px; flex-wrap:wrap; margin-top:18px;}
+  .stat-cat{font-size:.82rem; color:var(--ink-soft);}
+  .stat-cat b{font-family:'IBM Plex Mono',monospace; color:var(--plum); font-size:1rem; margin-right:6px;}
+
+  /* contact */
+  footer{padding:80px 0 60px;}
+  footer h2{font-size:2rem; max-width:520px;}
+  .contact-links{display:flex; flex-wrap:wrap; gap:16px; margin-top:30px;}
+  .contact-links a{display:inline-block; padding:12px 22px; border-radius:30px; border:1px solid var(--ink);
+    font-size:.9rem; font-weight:600; text-decoration:none;}
+  .contact-links a.primary{background:var(--petrol); color:#fff; border-color:var(--petrol);}
+  .foot-note{margin-top:50px; font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Micaela García</div>
+    <div class="navlinks">
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="sobre-mi">
+  <div class="wrap">
+    <span class="kicker">Brand, Content &amp; Growth Strategist</span>
+    <h1>Construyo el sistema que sostiene una marca cuando todo a su alrededor cambia.</h1>
+    <p class="lead">Acompaño a marcas que necesitan posicionamiento a transformar su estrategia de comunicación mediante el trabajo de identidad, para que puedan tomar decisiones a partir de resultados medibles. Esta transformación se observa cuando, con el equipo, se puede sostener el sistema que alinea oferta, mensaje y momento de difusión.</p>
+
+    <div class="stats" id="stats-container"></div>
+    <div class="stat-cats" id="stat-cats-container"></div>
+    <div class="gradient-bar" style="margin-top:50px;"></div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <div class="wrap">
+    <div class="filter-pills" id="filter-pills"></div>
+  </div>
+</div>
+
+<section id="proyectos" data-cat="grid1" style="--cat-color: var(--petrol);">
+  <div class="wrap">
+    <div class="sect-head">
+      <span class="kicker">01</span>
+      <h2>Comunicación, estrategia y diseño editorial</h2>
+      <p>Proyectos donde la estrategia institucional, la identidad visual y el diseño editorial se integran para construir marcas claras, coherentes y con impacto real.</p>
+    </div>
+    <div class="project-rows" id="grid-1"></div>
+  </div>
+</section>
+
+<section class="alt" data-cat="grid2" style="--cat-color: var(--ochre);">
+  <div class="wrap">
+    <div class="sect-head">
+      <span class="kicker">02</span>
+      <h2>Producción y experiencias creativas</h2>
+      <p>Experiencias culturales y de bienestar donde integré diseño, comunicación y producción general, desde la construcción conceptual hasta la ejecución operativa.</p>
+    </div>
+    <div class="project-rows" id="grid-2"></div>
+  </div>
+</section>
+
+<section data-cat="grid3" style="--cat-color: var(--plum);">
+  <div class="wrap">
+    <div class="sect-head">
+      <span class="kicker">03</span>
+      <h2>Comunicación y producción de contenidos digitales</h2>
+      <p>Procesos de comunicación institucional con foco en claridad conceptual, coherencia visual e impacto comercial — de la estrategia a la ejecución.</p>
+    </div>
+    <div class="project-rows" id="grid-3"></div>
+  </div>
+</section>
+
+<section class="alt" data-cat="grid4" style="--cat-color: var(--ink);">
+  <div class="wrap">
+    <div class="sect-head">
+      <span class="kicker">04</span>
+      <h2>Comunicación institucional y marketing estratégico</h2>
+      <p>Procesos orientados a la claridad, la coherencia visual y el impacto comercial, unificando mensaje, estética y propósito en piezas digitales y campañas multicanal.</p>
+    </div>
+    <div class="project-rows" id="grid-4"></div>
+  </div>
+</section>
+
+<footer id="contacto">
+  <div class="wrap">
+    <span class="kicker">Contacto</span>
+    <h2>Contáctame para empezar a crear.</h2>
+    <div class="contact-links">
+      <a class="primary" href="https://wa.me/5491130301901" target="_blank">WhatsApp</a>
+      <a href="mailto:micaecgarcia@gmail.com">micaecgarcia@gmail.com</a>
+      <a href="tel:+5491130301901">+54 9 11 3030 1901</a>
+    </div>
+    <div class="foot-note">Portfolio — Micaela García · actualizado julio 2026</div>
+  </div>
+</footer>
+
+<div id="lightbox">
+  <span id="lightbox-close">&times;</span>
+  <div id="lightbox-content"></div>
+</div>
+
+<script>
+/* =========================================================
+   ACTUALIZAR ACÁ cuando cambien tus números manuales.
+   El resto (proyectos, fotos, videos, docs) se lee solo desde GitHub.
+   ========================================================= */
+const STATS = {
+  activeClients: 2,
+  yearsExperience: 5
+};
+
+const OWNER = "micaecgarcia-glitch";
+const REPO = "proyectos-portfolio";
+const BRANCH = "main";
+const API_BASE = `https://api.github.com/repos/${OWNER}/${REPO}/contents`;
+const RAW_BASE = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}`;
+
+const CATEGORY_LABEL = {
+  grid1: "Identidad y diseño editorial",
+  grid2: "Producción y experiencias creativas",
+  grid3: "Contenido digital",
+  grid4: "Marketing estratégico"
+};
+const CATEGORY_COLOR = { grid1: "var(--petrol)", grid2: "var(--ochre)", grid3: "var(--plum)", grid4: "var(--ink)" };
+
+let PROJECTS = { grid1: [], grid2: [], grid3: [], grid4: [] };
+
+async function ghList(path) {
+  const res = await fetch(`${API_BASE}/${path}`);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+async function loadProjectsAndRender() {
+  const rootItems = await ghList('');
+  const projectDirs = rootItems.filter(i => i.type === 'dir');
+
+  const results = await Promise.all(projectDirs.map(async (dir) => {
+    try {
+      const textoRes = await fetch(`${RAW_BASE}/${dir.name}/texto.json`, { cache: 'no-store' });
+      if (!textoRes.ok) return null;
+      const texto = await textoRes.json();
+
+      const [imagenes, videos, documentos] = await Promise.all([
+        ghList(`${dir.name}/imagenes`),
+        ghList(`${dir.name}/videos`),
+        ghList(`${dir.name}/documentos`),
+      ]);
+
+      return {
+        ...texto,
+        slug: dir.name,
+        images: imagenes.filter(f => f.type === 'file').map(f => f.download_url),
+        videoFiles: videos.filter(f => f.type === 'file').map(f => f.download_url),
+        docFiles: documentos.filter(f => f.type === 'file').map(f => ({
+          name: (texto.docLabels && texto.docLabels[f.name]) || f.name.replace(/\.[^/.]+$/, ''),
+          url: f.download_url
+        })),
+      };
+    } catch (e) {
+      console.warn(`Proyecto "${dir.name}" sin texto.json válido todavía:`, e);
+      return null;
+    }
+  }));
+
+  PROJECTS = { grid1: [], grid2: [], grid3: [], grid4: [] };
+  results.filter(Boolean).forEach(p => {
+    const cat = PROJECTS[p.category] ? p.category : 'grid1';
+    PROJECTS[cat].push(p);
+  });
+
+  renderStats();
+  renderFilterPills();
+  renderGrid('grid-1', PROJECTS.grid1);
+  renderGrid('grid-2', PROJECTS.grid2);
+  renderGrid('grid-3', PROJECTS.grid3);
+  renderGrid('grid-4', PROJECTS.grid4);
+}
+
+function renderStats() {
+  const totalClients = ['grid1','grid2','grid3','grid4'].reduce((sum, k) => sum + PROJECTS[k].length, 0);
+  const el = document.getElementById('stats-container');
+  el.innerHTML = `
+    <div class="stat"><div class="num">${STATS.activeClients}</div><div class="lbl">Trabajando actualmente con</div></div>
+    <div class="stat"><div class="num">${totalClients}</div><div class="lbl">Proyectos realizados</div></div>
+    <div class="stat"><div class="num">${STATS.yearsExperience}+</div><div class="lbl">Años de experiencia</div></div>
+  `;
+
+  const catsEl = document.getElementById('stat-cats-container');
+  catsEl.innerHTML = ['grid1','grid2','grid3','grid4'].map(k =>
+    `<div class="stat-cat"><b>${PROJECTS[k].length}</b>${CATEGORY_LABEL[k]}</div>`
+  ).join("");
+}
+
+function renderFilterPills() {
+  const el = document.getElementById('filter-pills');
+  const keys = ['all','grid1','grid2','grid3','grid4'];
+  el.innerHTML = keys.map(k => {
+    const label = k === 'all' ? 'Todos' : CATEGORY_LABEL[k];
+    const color = k === 'all' ? 'var(--ink)' : CATEGORY_COLOR[k];
+    return `<button class="pill${k==='all' ? ' active' : ''}" data-filter="${k}" style="--pill-color:${color}">${label}</button>`;
+  }).join("");
+
+  el.querySelectorAll('.pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      el.querySelectorAll('.pill').forEach(b => {
+        b.classList.remove('active');
+        b.style.background = '#fff';
+        b.style.color = '';
+      });
+      btn.classList.add('active');
+      btn.style.background = btn.style.getPropertyValue('--pill-color') || 'var(--ink)';
+      btn.style.color = '#fff';
+
+      document.querySelectorAll('section[data-cat]').forEach(sec => {
+        sec.style.display = (filter === 'all' || sec.dataset.cat === filter) ? '' : 'none';
+      });
+    });
+  });
+}
+
+function buildSlides(p) {
+  const slides = [];
+  (p.images || []).forEach(url => slides.push({ type: 'image', src: url }));
+  (p.videoFiles || []).forEach(url => slides.push({ type: 'video', src: url }));
+  return slides;
+}
+
+function docsHTML(p) {
+  if (!p.docFiles || p.docFiles.length === 0) return "";
+  return p.docFiles.map(d => `
+    <div class="pdf-preview">
+      <div class="pdf-frame-wrap"><iframe src="${d.url}#toolbar=0&navpanes=0&view=FitH" loading="lazy"></iframe></div>
+      <div class="pdf-bar"><b>${d.name}</b><a class="pdf-open" href="${d.url}" target="_blank" rel="noopener">Abrir en pestaña nueva ↗</a></div>
+    </div>
+  `).join("");
+}
+
+function renderGrid(containerId, items) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map((p, i) => `
+    <div class="project-row${i % 2 === 1 ? ' flip' : ''}">
+      <div class="row-media">
+        <div class="story" id="story-${p.slug}"></div>
+      </div>
+      <div class="row-content">
+        <span class="kicker-line"></span>
+        <h3>${p.title}</h3>
+        <div class="role">${p.role}</div>
+        <div class="context">${p.context}</div>
+        <ul>${p.bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+        ${p.narrative ? `<p class="narrative">${p.narrative}</p>` : ""}
+        <div class="result"><b>Resultado —</b> ${p.result}</div>
+        ${docsHTML(p)}
+      </div>
+    </div>
+  `).join("");
+
+  items.forEach(p => initStory(p));
+}
+
+function initStory(p) {
+  const slides = buildSlides(p);
+  const container = document.getElementById(`story-${p.slug}`);
+  if (!container) return;
+  if (slides.length === 0) {
+    container.innerHTML = `<div class="gallery-empty">Todavía no hay fotos/videos en la carpeta de este proyecto.</div>`;
+    return;
+  }
+
+  let current = 0;
+  container.innerHTML = `
+    <div class="story-progress">${slides.map(() => `<div class="seg"></div>`).join("")}</div>
+    <div class="story-stage"><div class="story-slide-content"></div></div>
+    ${slides.length > 1 ? `<button class="story-nav prev" aria-label="Anterior">‹</button><button class="story-nav next" aria-label="Siguiente">›</button>` : ''}
+  `;
+
+  const segs = container.querySelectorAll('.seg');
+  const stageContent = container.querySelector('.story-slide-content');
+
+  const stage = container.querySelector('.story-stage');
+
+  function setStageHeight(naturalW, naturalH) {
+    if (!naturalW || !naturalH) return;
+    requestAnimationFrame(() => {
+      const stageWidth = stage.getBoundingClientRect().width || stage.parentElement.clientWidth || 300;
+      let h = stageWidth * (naturalH / naturalW);
+      h = Math.max(220, Math.min(520, h));
+      stage.style.height = `${h}px`;
+    });
+  }
+
+  function fillSlide(idx) {
+    current = idx;
+    segs.forEach((s, i) => s.classList.toggle('done', i <= idx));
+    const slide = slides[idx];
+
+    if (slide.type === 'video') {
+      const video = document.createElement('video');
+      video.src = slide.src;
+      video.controls = true;
+      video.onloadedmetadata = () => setStageHeight(video.videoWidth, video.videoHeight);
+      stageContent.innerHTML = '';
+      stageContent.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.alt = p.title;
+      img.src = slide.src;
+      img.onload = () => setStageHeight(img.naturalWidth, img.naturalHeight);
+      img.onclick = () => openLightbox(img.src, 'image');
+      stageContent.innerHTML = '';
+      stageContent.appendChild(img);
+    }
+  }
+
+
+  function renderSlide(idx) {
+    stageContent.classList.add('fading');
+    setTimeout(() => {
+      fillSlide(idx);
+      stageContent.classList.remove('fading');
+    }, 150);
+  }
+
+  container.querySelector('.prev')?.addEventListener('click', () => renderSlide((current - 1 + slides.length) % slides.length));
+  container.querySelector('.next')?.addEventListener('click', () => renderSlide((current + 1) % slides.length));
+  segs.forEach((s, i) => s.addEventListener('click', () => renderSlide(i)));
+
+  fillSlide(0);
+}
+
+function openLightbox(src, type) {
+  const content = document.getElementById('lightbox-content');
+  content.innerHTML = type === 'video'
+    ? `<video src="${src}" controls autoplay></video>`
+    : `<img src="${src}" alt="">`;
+  document.getElementById('lightbox').classList.add('open');
+}
+document.getElementById('lightbox-close').addEventListener('click', () => {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-content').innerHTML = '';
+});
+document.getElementById('lightbox').addEventListener('click', (e) => {
+  if (e.target.id === 'lightbox') {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-content').innerHTML = '';
+  }
+});
+
+loadProjectsAndRender();
+</script>
+
+</body>
+</html>
