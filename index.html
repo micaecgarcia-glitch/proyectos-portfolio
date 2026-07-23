@@ -279,10 +279,10 @@
    ========================================================= */
 const STATS = {
   education: [
-    { title: "Licenciatura en Comunicación Audiovisual", percent: 75 },
-    { title: "Growth Marketing", percent: 100 },
-    { title: "Community Manager & Publicidad", percent: 100 },
-    { title: "Técnica en Producción de Contenidos Audiovisuales", percent: 100 }
+    { title: "Licenciatura en Comunicación Audiovisual", percent: 75, year: "" },
+    { title: "Growth Marketing", percent: 100, year: 2022 },
+    { title: "Community Manager & Publicidad", percent: 100, year: 2022 },
+    { title: "Técnica en Producción de Contenidos Audiovisuales", percent: 100, year: 2018 }
   ],
   certifications: [
     { title: "Google Analytics Individual Qualification", year: 2022 },
@@ -370,7 +370,7 @@ function renderStats() {
               <div class="edu-bar-fill" style="width:${e.percent}%"></div>
             </div>
             <div class="edu-bar-bottom">
-              <span class="edu-bar-title">${e.title}</span>
+              <span class="edu-bar-title">${e.title}${e.year ? ` · ${e.year}` : ''}</span>
               <span class="edu-bar-percent">${e.percent}%</span>
             </div>
           </div>
