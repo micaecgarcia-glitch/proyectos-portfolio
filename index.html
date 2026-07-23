@@ -132,11 +132,11 @@
   .education-status{margin-top:24px;}
   .edu-bars{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:22px;}
   .edu-bar-item{width:auto;}
+  .edu-bar-top{display:flex; align-items:center; gap:8px;}
   .edu-bar-track{width:130px; height:5px; border-radius:3px; background:var(--line); overflow:hidden;}
   .edu-bar-fill{height:100%; background:var(--petrol); border-radius:3px;}
-  .edu-bar-bottom{display:flex; justify-content:space-between; align-items:baseline; margin-top:8px;}
-  .edu-bar-title{font-size:.76rem; color:var(--ink-soft); line-height:1.3; white-space:nowrap;}
-  .edu-bar-percent{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--petrol); flex-shrink:0; margin-left:6px;}
+  .edu-bar-percent{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--petrol); flex-shrink:0;}
+  .edu-bar-title{display:block; font-size:.76rem; color:var(--ink-soft); line-height:1.3; white-space:nowrap; margin-top:8px;}
 
   .cert-row{display:flex; gap:20px; flex-wrap:wrap; padding-top:16px; border-top:1px dashed var(--line);}
   .cert-item{display:flex; align-items:center; gap:7px; font-size:.78rem; color:var(--ink-soft);}
@@ -366,13 +366,13 @@ function renderStats() {
       <div class="edu-bars">
         ${STATS.education.map(e => `
           <div class="edu-bar-item">
-            <div class="edu-bar-track">
-              <div class="edu-bar-fill" style="width:${e.percent}%"></div>
-            </div>
-            <div class="edu-bar-bottom">
-              <span class="edu-bar-title">${e.title}${e.year ? ` · ${e.year}` : ''}</span>
+            <div class="edu-bar-top">
+              <div class="edu-bar-track">
+                <div class="edu-bar-fill" style="width:${e.percent}%"></div>
+              </div>
               <span class="edu-bar-percent">${e.percent}%</span>
             </div>
+            <span class="edu-bar-title">${e.title}${e.year ? ` · ${e.year}` : ''}</span>
           </div>
         `).join("")}
       </div>
