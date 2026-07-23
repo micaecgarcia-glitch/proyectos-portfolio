@@ -61,7 +61,9 @@
   /* filter pills */
   .filter-bar{position:sticky; top:63px; z-index:40; background:var(--paper);
     border-bottom:1px solid var(--line); padding:16px 0;}
-  .filter-pills{display:flex; gap:10px; flex-wrap:wrap;}
+  .filter-pills{display:flex; gap:10px; flex-wrap:nowrap; overflow-x:auto; padding-bottom:4px;}
+  .filter-pills::-webkit-scrollbar{height:4px;}
+  .filter-pills .pill{flex-shrink:0;}
   .pill{font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.04em; text-transform:uppercase;
     padding:8px 16px; border-radius:20px; border:1px solid var(--line); background:#fff; cursor:pointer;
     color:var(--ink-soft); transition:all .15s ease;}
