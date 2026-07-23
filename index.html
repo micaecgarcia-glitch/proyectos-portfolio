@@ -129,6 +129,21 @@
 
   /* segmented stats */
   .stat-cats{display:flex; gap:28px; flex-wrap:wrap; margin-top:18px;}
+  .education-status{display:flex; flex-direction:column; gap:8px; margin-top:20px;}
+  .edu-item{font-size:.85rem; color:var(--ink-soft); display:flex; align-items:center; gap:8px;}
+  .edu-title{color:var(--ink); font-weight:600;}
+  .edu-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+  .edu-dot.completado{background:var(--petrol);}
+  .edu-dot.en-proceso{background:var(--ochre);}
+  .edu-status{font-family:'IBM Plex Mono',monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); margin-left:4px;}
+
+  /* about detail */
+  .about-detail{padding:50px 0 10px;}
+  .about-detail-inner{display:flex; gap:40px; align-items:flex-start;}
+  .about-photo{width:140px; height:140px; border-radius:50%; object-fit:cover; flex-shrink:0; border:1px solid var(--line);}
+  .about-text{max-width:640px; font-size:1rem; color:var(--ink-soft); line-height:1.7;}
+  .about-text p{margin-bottom:14px;}
+  @media (max-width:600px){.about-detail-inner{flex-direction:column;}}
   .stat-cat{font-size:.82rem; color:var(--ink-soft);}
   .stat-cat b{font-family:'IBM Plex Mono',monospace; color:var(--plum); font-size:1rem; margin-right:6px;}
 
@@ -155,13 +170,23 @@
   </div>
 </nav>
 
-<header class="hero" id="sobre-mi">
+<section class="about-detail" id="sobre-mi">
+  <div class="wrap about-detail-inner">
+    <img src="assets/foto-mica.jpg" alt="Micaela García" class="about-photo" onerror="this.style.display='none'">
+    <div class="about-text">
+      <p>Soy comunicadora audiovisual con formación en marketing, y combino sensibilidad estética, claridad conceptual y visión estratégica en cada proyecto. Me mueve dar forma a ideas con impacto: tomar algo que todavía no tiene sistema ni criterio, y dejarlo instalado de una forma que se sostenga en el tiempo — con o sin mí en el día a día.</p>
+      <p>Trabajo de forma remota con equipos en LATAM y España, combinando identidad de marca, estrategia y contenido como un mismo proceso.</p>
+    </div>
+  </div>
+</section>
+
+<header class="hero">
   <div class="wrap">
     <span class="kicker">Brand, Content &amp; Growth Strategist</span>
     <h1>Construyo el sistema que sostiene una marca cuando todo a su alrededor cambia.</h1>
     <p class="lead">Acompaño a marcas que necesitan posicionamiento a transformar su estrategia de comunicación mediante el trabajo de identidad, para que puedan tomar decisiones a partir de resultados medibles. Esta transformación se observa cuando, con el equipo, se puede sostener el sistema que alinea oferta, mensaje y momento de difusión.</p>
 
-    <div class="stats" id="stats-container"></div>
+    <div class="education-status" id="education-container"></div>
     <div class="stat-cats" id="stat-cats-container"></div>
     <div class="gradient-bar" style="margin-top:50px;"></div>
   </div>
@@ -224,7 +249,6 @@
     <div class="contact-links">
       <a class="primary" href="https://wa.me/5491130301901" target="_blank">WhatsApp</a>
       <a href="mailto:micaecgarcia@gmail.com">micaecgarcia@gmail.com</a>
-      <a href="tel:+5491130301901">+54 9 11 3030 1901</a>
     </div>
     <div class="foot-note">Portfolio — Micaela García · actualizado julio 2026</div>
   </div>
@@ -241,8 +265,11 @@
    El resto (proyectos, fotos, videos, docs) se lee solo desde GitHub.
    ========================================================= */
 const STATS = {
-  activeClients: 2,
-  yearsExperience: 5
+  education: [
+    { title: "Lic. en Comunicación Audiovisual", school: "UNSAM", status: "en-proceso" },
+    { title: "Téc. en Producción Audiovisual", school: "TEA Imagen", status: "completado" },
+    { title: "Digital & Growth Marketing", school: "Coderhouse", status: "completado" }
+  ]
 };
 
 const OWNER = "micaecgarcia-glitch";
@@ -314,13 +341,16 @@ async function loadProjectsAndRender() {
 }
 
 function renderStats() {
-  const totalClients = ['grid1','grid2','grid3','grid4'].reduce((sum, k) => sum + PROJECTS[k].length, 0);
-  const el = document.getElementById('stats-container');
-  el.innerHTML = `
-    <div class="stat"><div class="num">${STATS.activeClients}</div><div class="lbl">Trabajando actualmente con</div></div>
-    <div class="stat"><div class="num">${totalClients}</div><div class="lbl">Proyectos realizados</div></div>
-    <div class="stat"><div class="num">${STATS.yearsExperience}+</div><div class="lbl">Años de experiencia</div></div>
-  `;
+  const eduEl = document.getElementById('education-container');
+  if (eduEl) {
+    eduEl.innerHTML = STATS.education.map(e => `
+      <div class="edu-item">
+        <span class="edu-dot ${e.status}"></span>
+        <span class="edu-title">${e.title}</span> — ${e.school}
+        <span class="edu-status">${e.status === 'completado' ? 'Completado' : 'En proceso'}</span>
+      </div>
+    `).join("");
+  }
 
   const catsEl = document.getElementById('stat-cats-container');
   catsEl.innerHTML = ['grid1','grid2','grid3','grid4'].map(k =>
