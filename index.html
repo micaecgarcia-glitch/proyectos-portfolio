@@ -129,18 +129,31 @@
 
   /* segmented stats */
   .stat-cats{display:flex; gap:28px; flex-wrap:wrap; margin-top:18px;}
-  .education-status{display:flex; flex-direction:column; gap:8px; margin-top:20px;}
-  .edu-item{font-size:.85rem; color:var(--ink-soft); display:flex; align-items:center; gap:8px;}
-  .edu-title{color:var(--ink); font-weight:600;}
-  .edu-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
-  .edu-dot.completado{background:var(--petrol);}
-  .edu-dot.en-proceso{background:var(--ochre);}
-  .edu-status{font-family:'IBM Plex Mono',monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); margin-left:4px;}
+  .education-status{margin-top:24px;}
+  .edu-bars{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:22px;}
+  .edu-bar-item{width:160px;}
+  .edu-bar-track{height:5px; border-radius:3px; background:var(--line); overflow:hidden;}
+  .edu-bar-fill{height:100%; background:var(--petrol); border-radius:3px;}
+  .edu-bar-bottom{display:flex; justify-content:space-between; align-items:baseline; margin-top:8px;}
+  .edu-bar-title{font-size:.76rem; color:var(--ink-soft); line-height:1.3; max-width:120px;}
+  .edu-bar-percent{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--petrol); flex-shrink:0; margin-left:6px;}
+
+  .cert-row{display:flex; gap:20px; flex-wrap:wrap; padding-top:16px; border-top:1px dashed var(--line);}
+  .cert-item{display:flex; align-items:center; gap:7px; font-size:.78rem; color:var(--ink-soft);}
+  .cert-check{color:var(--ochre); font-weight:700;}
+  .cert-title{color:var(--ink);}
+  .cert-year{font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--ink-soft);}
 
   /* about detail */
   .about-detail{padding:50px 0 10px;}
   .about-detail-inner{display:flex; gap:40px; align-items:flex-start;}
-  .about-photo{width:140px; height:140px; border-radius:50%; object-fit:cover; flex-shrink:0; border:1px solid var(--line);}
+  .about-photo{width:140px; height:140px; border-radius:50%; object-fit:cover; flex-shrink:0; border:1px solid var(--line);
+    animation: photo-float 1.1s ease-out;}
+  @keyframes photo-float {
+    0%   { opacity:0; transform:translateY(14px) scale(.97); }
+    100% { opacity:1; transform:translateY(0) scale(1); }
+  }
+  .hello{font-family:'Fraunces',serif; font-weight:600; font-size:1.3rem; color:var(--ink); margin-bottom:10px;}
   .about-text{max-width:640px; font-size:1rem; color:var(--ink-soft); line-height:1.7;}
   .about-text p{margin-bottom:14px;}
   @media (max-width:600px){.about-detail-inner{flex-direction:column;}}
@@ -174,7 +187,8 @@
   <div class="wrap about-detail-inner">
     <img src="assets/foto-mica.jpg" alt="Micaela García" class="about-photo" onerror="this.style.display='none'">
     <div class="about-text">
-      <p>Soy comunicadora audiovisual con formación en marketing, y combino sensibilidad estética, claridad conceptual y visión estratégica en cada proyecto. Me mueve dar forma a ideas con impacto: tomar algo que todavía no tiene sistema ni criterio, y dejarlo instalado de una forma que se sostenga en el tiempo — con o sin mí en el día a día.</p>
+      <p class="hello">Hola, soy Mica!</p>
+      <p>Profesional de Brand, Content y Marketing Communications, con experiencia en desarrollo de identidad de marca, estrategia de comunicación para creación de contenidos y Growth Marketing.</p>
       <p>Trabajo de forma remota con equipos en LATAM y España, combinando identidad de marca, estrategia y contenido como un mismo proceso.</p>
     </div>
   </div>
@@ -266,9 +280,15 @@
    ========================================================= */
 const STATS = {
   education: [
-    { title: "Lic. en Comunicación Audiovisual", school: "UNSAM", status: "en-proceso" },
-    { title: "Téc. en Producción Audiovisual", school: "TEA Imagen", status: "completado" },
-    { title: "Digital & Growth Marketing", school: "Coderhouse", status: "completado" }
+    { title: "Licenciatura en Comunicación Audiovisual", percent: 75 },
+    { title: "Growth Marketing", percent: 100 },
+    { title: "Community Manager & Publicidad", percent: 100 },
+    { title: "Técnica en Producción de Contenidos Audiovisuales", percent: 100 }
+  ],
+  certifications: [
+    { title: "Google Analytics Individual Qualification", year: 2022 },
+    { title: "Certificación en Búsqueda de Google Ads", year: 2022 },
+    { title: "Google Analytics", year: 2022 }
   ]
 };
 
@@ -343,13 +363,30 @@ async function loadProjectsAndRender() {
 function renderStats() {
   const eduEl = document.getElementById('education-container');
   if (eduEl) {
-    eduEl.innerHTML = STATS.education.map(e => `
-      <div class="edu-item">
-        <span class="edu-dot ${e.status}"></span>
-        <span class="edu-title">${e.title}</span> — ${e.school}
-        <span class="edu-status">${e.status === 'completado' ? 'Completado' : 'En proceso'}</span>
+    eduEl.innerHTML = `
+      <div class="edu-bars">
+        ${STATS.education.map(e => `
+          <div class="edu-bar-item">
+            <div class="edu-bar-track">
+              <div class="edu-bar-fill" style="width:${e.percent}%"></div>
+            </div>
+            <div class="edu-bar-bottom">
+              <span class="edu-bar-title">${e.title}</span>
+              <span class="edu-bar-percent">${e.percent}%</span>
+            </div>
+          </div>
+        `).join("")}
       </div>
-    `).join("");
+      <div class="cert-row">
+        ${STATS.certifications.map(c => `
+          <div class="cert-item">
+            <span class="cert-check">✓</span>
+            <span class="cert-title">${c.title}</span>
+            <span class="cert-year">${c.year}</span>
+          </div>
+        `).join("")}
+      </div>
+    `;
   }
 
   const catsEl = document.getElementById('stat-cats-container');
