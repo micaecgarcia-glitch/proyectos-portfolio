@@ -131,11 +131,11 @@
   .stat-cats{display:flex; gap:28px; flex-wrap:wrap; margin-top:18px;}
   .education-status{margin-top:24px;}
   .edu-bars{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:22px;}
-  .edu-bar-item{width:160px;}
-  .edu-bar-track{height:5px; border-radius:3px; background:var(--line); overflow:hidden;}
+  .edu-bar-item{width:auto;}
+  .edu-bar-track{width:130px; height:5px; border-radius:3px; background:var(--line); overflow:hidden;}
   .edu-bar-fill{height:100%; background:var(--petrol); border-radius:3px;}
   .edu-bar-bottom{display:flex; justify-content:space-between; align-items:baseline; margin-top:8px;}
-  .edu-bar-title{font-size:.76rem; color:var(--ink-soft); line-height:1.3; max-width:120px;}
+  .edu-bar-title{font-size:.76rem; color:var(--ink-soft); line-height:1.3; white-space:nowrap;}
   .edu-bar-percent{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--petrol); flex-shrink:0; margin-left:6px;}
 
   .cert-row{display:flex; gap:20px; flex-wrap:wrap; padding-top:16px; border-top:1px dashed var(--line);}
@@ -201,7 +201,6 @@
     <p class="lead">Acompaño a marcas que necesitan posicionamiento a transformar su estrategia de comunicación mediante el trabajo de identidad, para que puedan tomar decisiones a partir de resultados medibles. Esta transformación se observa cuando, con el equipo, se puede sostener el sistema que alinea oferta, mensaje y momento de difusión.</p>
 
     <div class="education-status" id="education-container"></div>
-    <div class="stat-cats" id="stat-cats-container"></div>
     <div class="gradient-bar" style="margin-top:50px;"></div>
   </div>
 </header>
@@ -388,11 +387,6 @@ function renderStats() {
       </div>
     `;
   }
-
-  const catsEl = document.getElementById('stat-cats-container');
-  catsEl.innerHTML = ['grid1','grid2','grid3','grid4'].map(k =>
-    `<div class="stat-cat"><b>${PROJECTS[k].length}</b>${CATEGORY_LABEL[k]}</div>`
-  ).join("");
 }
 
 function renderFilterPills() {
