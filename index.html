@@ -6,7 +6,7 @@
 <title>Micaela García — Brand, Content & Growth Strategist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
 <style>
   :root{
     --paper:#F1EEE6;
@@ -289,10 +289,6 @@ const STATS = {
   ]
 };
 
-if (window.pdfjsLib) {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-}
-
 const OWNER = "micaecgarcia-glitch";
 const REPO = "proyectos-portfolio";
 const BRANCH = "main";
@@ -438,7 +434,23 @@ function docsHTML(p) {
   `).join("");
 }
 
+function waitForPdfJs(timeoutMs) {
+  return new Promise(resolve => {
+    const start = Date.now();
+    (function check() {
+      if (window.pdfjsLib) return resolve(true);
+      if (Date.now() - start > timeoutMs) return resolve(false);
+      setTimeout(check, 150);
+    })();
+  });
+}
+
 async function renderAllPdfPreviews(items) {
+  const ready = await waitForPdfJs(5000);
+  if (!ready) return; // sin librería disponible, no se intenta — no se rompe nada más
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
   for (const p of items) {
     if (!p.docFiles) continue;
     for (let i = 0; i < p.docFiles.length; i++) {
