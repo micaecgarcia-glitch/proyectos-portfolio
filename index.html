@@ -6,6 +6,7 @@
 <title>Micaela García — Brand, Content & Growth Strategist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root{
     --paper:#F1EEE6;
@@ -114,14 +115,10 @@
     display:flex; align-items:center; justify-content:center; transition:background .15s ease;}
   .story-nav:hover{background:rgba(35,38,43,.85);}
   .story-nav.prev{left:10px;} .story-nav.next{right:10px;}
-  .pdf-preview{margin-top:18px; border:1px solid var(--line); border-radius:10px; overflow:hidden;}
-  .pdf-preview .pdf-frame-wrap{height:220px; background:var(--paper-dim); pointer-events:none;}
-  .pdf-preview iframe{width:100%; height:100%; border:none;}
-  .pdf-preview .pdf-bar{display:flex; align-items:center; justify-content:space-between; padding:10px 14px;
-    background:#fff; font-size:.82rem;}
-  .pdf-preview .pdf-bar b{font-weight:600;}
-  .pdf-preview .pdf-open{color:var(--cat-color, var(--petrol)); font-weight:600; text-decoration:none; font-size:.8rem;}
-  .pdf-preview .pdf-open:hover{text-decoration:underline;}
+  .pdf-preview{margin-top:18px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--paper-dim);}
+  .pdf-preview .pdf-canvas-wrap{display:flex; align-items:center; justify-content:center; min-height:180px; padding:14px;}
+  .pdf-preview canvas{max-width:100%; height:auto; box-shadow:0 1px 6px rgba(0,0,0,.12); border-radius:2px;}
+  .pdf-preview .pdf-bar{padding:9px 14px; background:#fff; font-size:.8rem; font-weight:600; color:var(--ink); border-top:1px solid var(--line);}
 
   /* lightbox */
   #lightbox{display:none; position:fixed; inset:0; background:rgba(35,38,43,.92); z-index:100; align-items:center; justify-content:center; padding:5vh 5vw;}
@@ -292,6 +289,10 @@ const STATS = {
   ]
 };
 
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
 const OWNER = "micaecgarcia-glitch";
 const REPO = "proyectos-portfolio";
 const BRANCH = "main";
@@ -358,6 +359,8 @@ async function loadProjectsAndRender() {
   renderGrid('grid-2', PROJECTS.grid2);
   renderGrid('grid-3', PROJECTS.grid3);
   renderGrid('grid-4', PROJECTS.grid4);
+
+  renderAllPdfPreviews([...PROJECTS.grid1, ...PROJECTS.grid2, ...PROJECTS.grid3, ...PROJECTS.grid4]);
 }
 
 function renderStats() {
@@ -427,12 +430,35 @@ function buildSlides(p) {
 
 function docsHTML(p) {
   if (!p.docFiles || p.docFiles.length === 0) return "";
-  return p.docFiles.map(d => `
-    <div class="pdf-preview">
-      <div class="pdf-frame-wrap"><iframe src="${d.url}#toolbar=0&navpanes=0&view=FitH" loading="lazy"></iframe></div>
-      <div class="pdf-bar"><b>${d.name}</b><a class="pdf-open" href="${d.url}" target="_blank" rel="noopener">Abrir en pestaña nueva ↗</a></div>
+  return p.docFiles.map((d, i) => `
+    <div class="pdf-preview" id="pdf-${p.slug}-${i}" style="display:none;">
+      <div class="pdf-canvas-wrap"><canvas></canvas></div>
+      <div class="pdf-bar">${d.name}</div>
     </div>
   `).join("");
+}
+
+async function renderAllPdfPreviews(items) {
+  for (const p of items) {
+    if (!p.docFiles) continue;
+    for (let i = 0; i < p.docFiles.length; i++) {
+      const container = document.getElementById(`pdf-${p.slug}-${i}`);
+      if (!container) continue;
+      const canvas = container.querySelector('canvas');
+      try {
+        const pdf = await pdfjsLib.getDocument(p.docFiles[i].url).promise;
+        const page = await pdf.getPage(1);
+        const viewport = page.getViewport({ scale: 1.4 });
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+        container.style.display = '';
+      } catch (e) {
+        console.warn(`No se pudo previsualizar el PDF de ${p.slug}:`, e);
+        // se deja oculto — no queremos un hueco en blanco si falla
+      }
+    }
+  }
 }
 
 function renderGrid(containerId, items) {
